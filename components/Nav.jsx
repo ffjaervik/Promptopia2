@@ -6,6 +6,7 @@ import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
 export default function Nav() {
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [toggleDropdown, setToggleDropdown] = useState(false);
 
   return (
     <nav className="w-full pt-3 mb-16 flex-between">
@@ -54,6 +55,67 @@ export default function Nav() {
               onClick={() => {
                 setIsSignedIn((current) => !current);
               }}
+            >
+              Sign In
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* Mobile Navigation */}
+      <div className="flex sm:hidden relative">
+        {isSignedIn ? (
+          <div className="flex">
+            <Image
+              src=" /assets/images/logo.svg"
+              width={37}
+              height={37}
+              className="rouded-full"
+              alt="profile"
+              onClick={() => {
+                setToggleDropdown((current) => !current);
+              }}
+            />
+            {toggleDropdown && (
+              <div className="dropdown">
+                <Link
+                  href="/profile"
+                  className="dropdown_link"
+                  onClick={() => {
+                    setToggleDropdown(false);
+                  }}
+                >
+                  My Profile
+                </Link>
+                <Link
+                  href="/create-prompt"
+                  className="dropdown_link"
+                  onClick={() => {
+                    setToggleDropdown(false);
+                  }}
+                >
+                  Create Prompt
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setToggleDropdown(false);
+                    setIsSignedIn((current) => !current);
+                  }}
+                >
+                  Sign Out
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={() => {
+                setIsSignedIn((current) => !current);
+              }}
+              className="black_btn"
             >
               Sign In
             </button>
